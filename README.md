@@ -8,7 +8,7 @@ Juste open the file ( with nodepad for exemple ), and modify the first var
 
 # Habbo
 
-You need to set the coord with : 
+You need to set the cord with : 
 
 > !ctf coord x;y
 
