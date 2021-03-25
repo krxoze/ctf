@@ -6,13 +6,13 @@ from g_python.hmessage import Direction
     --------------------------------------------------------------
 """
 
-FURNI_UPDATE = 3776
-SPEECH_OUT = 1314
-SPEECH_IN = "1446"
-SET_ID = 99
-WALK = "3320"
+FURNI_UPDATE = 1103
+SPEECH_OUT = 654
+SPEECH_IN = "3139"
+SET_ID = 3398
+WALK = "3725"
 
-CLEAR_LIST = 1752
+CLEAR_LIST = 637
 
 
 COLOR_IN = "@A17676@"
@@ -37,10 +37,20 @@ ext.start()
 
 furni_list = []
 wait_id = False
+x = 0
+y = 0
 
 
 def update_furni(message):
-    (id_furni, _, x, y, rotation, z, _, _, _, _, _, _, _) = message.packet.read("iiiiissiisiii")
+    global x, y
+
+    if "habbo" in ext.connection_info['host']:
+        (id_furni, _, state) = message.packet.read("sis")
+
+    else:
+        (id_furni, _, x, y, rotation, z, _, _, _, _, _, _, _) = message.packet.read("iiiiissiisiii")
+
+    id_furni = int(id_furni)
 
     if id_furni in furni_list:
         ext.send_to_server('{l}{h:'+WALK+'}{i:'+str(x)+'}{i:'+str(y)+'}')
@@ -49,6 +59,7 @@ def update_furni(message):
 def speech(message):
     global wait_id
     global furni_list
+    global x, y
 
     (text, color, index) = message.packet.read('sii')
 
@@ -60,10 +71,17 @@ def speech(message):
         else:
             ext.send_to_client('{l}{h:'+SPEECH_IN+'}{i:0}{s:"'+COLOR_IN+' Id capture off"}{i:0}{i:34}{i:0}{i:0}')
 
-    if text == "!ctf clear":
+    elif text == "!ctf clear":
         message.is_blocked = True
         furni_list.clear()
         ext.send_to_client('{l}{h:'+SPEECH_IN+'}{i:0}{s:"'+COLOR_ERROR+' Furni list clear !"}{i:0}{i:34}{i:0}{i:0}')
+
+    elif text.startswith("!ctf coord "):
+        message.is_blocked = True
+        text = text[11:]
+        coord = text.split(';')
+        x, y = coord
+        ext.send_to_client('{l}{h:'+SPEECH_IN+'}{i:0}{s:"'+COLOR_IN+' Coord set to : '+x+' ; '+y+'"}{i:0}{i:34}{i:0}{i:0}')
 
 
 def furni(message):
@@ -85,8 +103,11 @@ def furni(message):
 def clear(message):
     global furni_list
     global wait_id
+    global x, y
     wait_id = False
     furni_list.clear()
+    x = 0
+    y = 0
 
 
 ext.intercept(Direction.TO_CLIENT, update_furni, FURNI_UPDATE)
