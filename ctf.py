@@ -3,8 +3,7 @@ import os, re, sys, platform
 try:
     __import__("g_python")
 except Exception as e:
-    requirement = re.search("'(.+)'", str(e)).group().replace("'", "").strip()
-    os.system(f"pip3 install {requirement}")
+    os.system(f"pip3 install g_python")
     if platform.system() != "Windows":
         os.system("clear")
     else:
