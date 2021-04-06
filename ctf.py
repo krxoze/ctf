@@ -1,4 +1,15 @@
-import sys
+import os, re, sys, platform
+
+try:
+    __import__("g_python")
+except Exception as e:
+    requirement = re.search("'(.+)'", str(e)).group().replace("'", "").strip()
+    os.system(f"pip3 install {requirement}")
+    if platform.system() != "Windows":
+        os.system("clear")
+    else:
+        os.system("cls")
+
 from g_python.gextension import Extension
 from g_python.hmessage import Direction
 
