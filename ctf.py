@@ -1,14 +1,4 @@
-import os, re, sys, platform
-
-try:
-    __import__("g_python")
-except Exception as e:
-    os.system(f"pip3 install g_python")
-    if platform.system() != "Windows":
-        os.system("clear")
-    else:
-        os.system("cls")
-
+import sys
 from g_python.gextension import Extension
 from g_python.hmessage import Direction
 
@@ -16,18 +6,18 @@ from g_python.hmessage import Direction
     --------------------------------------------------------------
 """
 
-FURNI_UPDATE = 1103
-SPEECH_OUT = 654
-SPEECH_IN = "3139"
-SET_ID = 3398
-WALK = "3725"
+FURNI_UPDATE = 1584
+SPEECH_OUT = 2266
+SPEECH_IN = "3570"
+SET_ID = 2949
+WALK = "3534"
 
-CLEAR_LIST = 637
+CLEAR_LIST = 2098
 
 
-COLOR_IN = "@A17676@"
-COLOR_OUT = "@1F808E@"
-COLOR_ERROR = "@E10230@"
+COLOR_IN = ""
+COLOR_OUT = ""
+COLOR_ERROR = ""
 
 """
     --------------------------------------------------------------
